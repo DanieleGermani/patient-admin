@@ -1,5 +1,6 @@
 <script setup>
 import { ref, reactive } from "vue";
+import { uid } from "uid";
 import Header from "./components/Header.vue";
 import Form from "./components/Form.vue";
 import Patient from "./components/Patient.vue";
@@ -7,6 +8,7 @@ import Patient from "./components/Patient.vue";
 const patients = ref([]);
 
 const patient = reactive({
+  id: null,
   petName: "",
   ownwerName: "",
   email: "",
@@ -15,8 +17,15 @@ const patient = reactive({
 });
 
 const savePatient = () => {
-  patients.value.push(patient);
-  console.log(patients.value);
+  patients.value.push({ ...patient, id: uid() });
+  // Clean Form
+  Object.assign(patient, {
+    petName: "",
+    ownwerName: "",
+    email: "",
+    entryDate: "",
+    symptoms: "",
+  });
 };
 </script>
 

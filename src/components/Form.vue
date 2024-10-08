@@ -41,6 +41,12 @@ const checkFormValidation = () => {
   emit("save-patient");
   alert.message = "Paciente registrado con exito";
   alert.type = "success";
+  setTimeout(() => {
+    Object.assign(alert, {
+      type: "",
+      message: "",
+    });
+  }, 3000);
 };
 </script>
 
