@@ -17,9 +17,15 @@ const patient = reactive({
 });
 
 const savePatient = () => {
-  patients.value.push({ ...patient, id: uid() });
+  if (patient.id) {
+    const index = patients.value.findIndex((item) => item.id === patient.id);
+    patients.value[index] = { ...patient };
+  } else {
+    patients.value.push({ ...patient, id: uid() });
+  }
   // Clean Form
   Object.assign(patient, {
+    id: null,
     petName: "",
     ownwerName: "",
     email: "",
@@ -47,6 +53,7 @@ const deletePatient = (id) => {
         v-model:email="patient.email"
         v-model:entryDate="patient.entryDate"
         v-model:symptoms="patient.symptoms"
+        :id="patient.id"
         @save-patient="savePatient"
       />
       <div class="md:w-1/2 md:h-screen overflow-y-scroll">

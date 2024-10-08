@@ -1,5 +1,5 @@
 <script setup>
-import { reactive } from "vue";
+import { reactive, computed } from "vue";
 import Alert from "./Alert.vue";
 const alert = reactive({
   type: "",
@@ -16,6 +16,9 @@ const emit = defineEmits([
 ]);
 
 const props = defineProps({
+  id: {
+    type: [String, null],
+  },
   petName: {
     type: String,
   },
@@ -48,6 +51,8 @@ const checkFormValidation = () => {
     });
   }, 3000);
 };
+
+const edit = computed(() => props.id);
 </script>
 
 <template>
@@ -110,7 +115,7 @@ const checkFormValidation = () => {
         <input
           id="entryDate"
           @input="$emit('update:entryDate', $event.target.value)"
-          value="entryDate"
+          :value="entryDate"
           class="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
           type="date"
         />
@@ -129,7 +134,7 @@ const checkFormValidation = () => {
       </div>
       <input
         type="submit"
-        value="Registrar Paciente"
+        :value="[edit ? 'Guardar cambios' : 'Registrar Paciente']"
         class="bg-indigo-600 w-full p-3 text-white uppercase font-bold hover:bg-indigo-700 cursor-pointer transition-colors"
       />
     </form>
