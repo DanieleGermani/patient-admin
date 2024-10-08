@@ -1,23 +1,44 @@
 <script setup>
 import { reactive } from "vue";
 import Alert from "./Alert.vue";
-const patient = reactive({
-  petName: "",
-  ownwerName: "",
-  email: "",
-  entryDate: "",
-  symptoms: "",
-});
 const alert = reactive({
   type: "",
   message: "",
 });
+
+const emit = defineEmits([
+  "update:petName",
+  "update:ownwerName",
+  "update:email",
+  "update:entryDate",
+  "update:symptoms",
+  "save-patient",
+]);
+
+const props = defineProps({
+  petName: {
+    type: String,
+  },
+  ownwerName: {
+    type: String,
+  },
+  email: {
+    type: String,
+  },
+  entryDate: {
+    type: String,
+  },
+  symptoms: {
+    type: String,
+  },
+});
 const checkFormValidation = () => {
-  if (Object.values(patient).includes("")) {
+  if (Object.values(props).includes("")) {
     alert.message = "Todos los campos son obligatorios";
     alert.type = "error";
     return;
   }
+  emit("save-patient");
   alert.message = "Paciente registrado con exito";
   alert.type = "success";
 };
@@ -43,7 +64,8 @@ const checkFormValidation = () => {
         </label>
         <input
           id="petName"
-          v-model="patient.petName"
+          @input="$emit('update:petName', $event.target.value)"
+          :value="petName"
           class="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
           type="text"
           placeholder="Nombre de la mascota"
@@ -55,7 +77,8 @@ const checkFormValidation = () => {
         </label>
         <input
           id="ownwerName"
-          v-model="patient.ownwerName"
+          @input="$emit('update:ownwerName', $event.target.value)"
+          :value="ownwerName"
           class="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
           type="text"
           placeholder="Nombre del propietario"
@@ -67,7 +90,8 @@ const checkFormValidation = () => {
         </label>
         <input
           id="email"
-          v-model="patient.email"
+          @input="$emit('update:email', $event.target.value)"
+          :value="email"
           class="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
           type="email"
           placeholder="Email Contacto Propietario"
@@ -79,7 +103,8 @@ const checkFormValidation = () => {
         </label>
         <input
           id="entryDate"
-          v-model="patient.entryDate"
+          @input="$emit('update:entryDate', $event.target.value)"
+          value="entryDate"
           class="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
           type="date"
         />
@@ -90,7 +115,8 @@ const checkFormValidation = () => {
         </label>
         <textarea
           id="symptoms"
-          v-model="patient.symptoms"
+          @input="$emit('update:symptoms', $event.target.value)"
+          :value="symptoms"
           class="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md h-40"
           placeholder="Describe los sintomas"
         />
