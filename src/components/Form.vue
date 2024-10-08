@@ -1,4 +1,27 @@
-<script setup></script>
+<script setup>
+import { reactive } from "vue";
+import Alert from "./Alert.vue";
+const patient = reactive({
+  petName: "",
+  ownwerName: "",
+  email: "",
+  entryDate: "",
+  symptoms: "",
+});
+const alert = reactive({
+  type: "",
+  message: "",
+});
+const checkFormValidation = () => {
+  if (Object.values(patient).includes("")) {
+    alert.message = "Todos los campos son obligatorios";
+    alert.type = "error";
+    return;
+  }
+  alert.message = "Paciente registrado con exito";
+  alert.type = "success";
+};
+</script>
 
 <template>
   <div class="md:w-1/2">
@@ -8,25 +31,32 @@
       <span class="text-indigo-600 font-bold">Administralos</span>
     </p>
 
-    <form class="bg-white shadow-md rounded-lg py-10 px-5 mb-10" action="">
+    <Alert v-if="alert.message" :alert="alert" />
+
+    <form
+      @submit.prevent="checkFormValidation"
+      class="bg-white shadow-md rounded-lg py-10 px-5 mb-10"
+    >
       <div class="mb-5">
-        <label for="pet" class="block text-gray-700 uppercase font-bold">
+        <label for="petName" class="block text-gray-700 uppercase font-bold">
           Nombre Mascota
         </label>
         <input
+          id="petName"
+          v-model="patient.petName"
           class="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
-          id="pet"
           type="text"
           placeholder="Nombre de la mascota"
         />
       </div>
       <div class="mb-5">
-        <label for="ownwer" class="block text-gray-700 uppercase font-bold">
+        <label for="ownwerName" class="block text-gray-700 uppercase font-bold">
           Nombre Propietario
         </label>
         <input
+          id="ownwerName"
+          v-model="patient.ownwerName"
           class="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
-          id="ownwer"
           type="text"
           placeholder="Nombre del propietario"
         />
@@ -36,8 +66,9 @@
           Email
         </label>
         <input
-          class="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
           id="email"
+          v-model="patient.email"
+          class="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
           type="email"
           placeholder="Email Contacto Propietario"
         />
@@ -47,8 +78,9 @@
           Fecha alta
         </label>
         <input
-          class="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
           id="entryDate"
+          v-model="patient.entryDate"
+          class="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
           type="date"
         />
       </div>
@@ -57,8 +89,9 @@
           Sintomas
         </label>
         <textarea
-          class="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md h-40"
           id="symptoms"
+          v-model="patient.symptoms"
+          class="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md h-40"
           placeholder="Describe los sintomas"
         />
       </div>
