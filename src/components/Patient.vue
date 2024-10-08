@@ -1,4 +1,5 @@
 <script setup>
+defineEmits(["update-patient", "delete-patient"]);
 const props = defineProps({
   patient: {
     type: Object,
@@ -40,6 +41,7 @@ const props = defineProps({
 
     <div class="grid md:grid-cols-2 gap-5 mt-10">
       <button
+        @click="$emit('update-patient', patient)"
         type="button"
         class="block w-full py-2 px-10 bg-indigo-600 hover:bg-indigo-700 text-white font-bold uppercase rounded-lg"
       >
@@ -47,6 +49,7 @@ const props = defineProps({
       </button>
 
       <button
+        @click="$emit('delete-patient', patient.id)"
         type="button"
         class="block w-full py-2 px-10 bg-red-600 hover:bg-red-700 text-white font-bold uppercase rounded-lg"
       >

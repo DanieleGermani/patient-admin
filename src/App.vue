@@ -27,6 +27,14 @@ const savePatient = () => {
     symptoms: "",
   });
 };
+
+const updatePatient = (patientToUpdate) => {
+  Object.assign(patient, patientToUpdate);
+};
+
+const deletePatient = (id) => {
+  patients.value = patients.value.filter((patient) => patient.id !== id);
+};
 </script>
 
 <template>
@@ -53,6 +61,8 @@ const savePatient = () => {
             v-for="patient in patients"
             :key="patient.id"
             :patient="patient"
+            @update-patient="updatePatient"
+            @delete-patient="deletePatient"
           />
         </div>
         <p v-else class="mt-10 text-center text-2xl">No hay Pacientes</p>
