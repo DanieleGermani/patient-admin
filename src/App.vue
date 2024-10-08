@@ -2,6 +2,7 @@
 import { ref, reactive } from "vue";
 import Header from "./components/Header.vue";
 import Form from "./components/Form.vue";
+import Patient from "./components/Patient.vue";
 
 const patients = ref([]);
 
@@ -33,7 +34,18 @@ const savePatient = () => {
       />
       <div class="md:w-1/2 md:h-screen overflow-y-scroll">
         <h3 class="font-black text-3xl text-center">Listado de Pacientes</h3>
-        <div v-if="patients.length > 0"></div>
+
+        <div v-if="patients.length > 0">
+          <p class="text-lg mt-5 text-center">
+            Informacins de
+            <span class="text-indigo-600 font-bold">Pacientes</span>
+          </p>
+          <Patient
+            v-for="patient in patients"
+            :key="patient.id"
+            :patient="patient"
+          />
+        </div>
         <p v-else class="mt-10 text-center text-2xl">No hay Pacientes</p>
       </div>
     </div>
